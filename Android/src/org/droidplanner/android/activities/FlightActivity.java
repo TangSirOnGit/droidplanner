@@ -1,15 +1,5 @@
 package org.droidplanner.android.activities;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
-import org.droidplanner.android.R;
-import org.droidplanner.android.dialogs.DroneshareDialog;
-import org.droidplanner.android.fragments.FlightActionsFragment;
-import org.droidplanner.android.fragments.FlightMapFragment;
-import org.droidplanner.android.fragments.TelemetryFragment;
-import org.droidplanner.android.fragments.mode.FlightModePanel;
-import org.droidplanner.android.utils.prefs.AutoPanMode;
-
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -20,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -33,6 +24,16 @@ import com.o3dr.android.client.Drone;
 import com.o3dr.services.android.lib.drone.attribute.AttributeEvent;
 import com.o3dr.services.android.lib.drone.attribute.AttributeEventExtra;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+
+import org.droidplanner.android.R;
+import org.droidplanner.android.dialogs.DroneshareDialog;
+import org.droidplanner.android.fragments.FlightActionsFragment;
+import org.droidplanner.android.fragments.FlightMapFragment;
+import org.droidplanner.android.fragments.TelemetryFragment;
+import org.droidplanner.android.fragments.mode.FlightModePanel;
+import org.droidplanner.android.utils.prefs.AutoPanMode;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class FlightActivity extends DrawerNavigationUI {
 
@@ -329,7 +330,7 @@ public class FlightActivity extends DrawerNavigationUI {
 		final int playStatus = GooglePlayServicesUtil
 				.isGooglePlayServicesAvailable(getApplicationContext());
 		final boolean isValid = playStatus == ConnectionResult.SUCCESS;
-
+        Log.i(TAG,"isGooglePlayServicesValid,isValid="+isValid);
 		if (!isValid && showErrorDialog) {
 			final Dialog errorDialog = GooglePlayServicesUtil.getErrorDialog(playStatus, this,
 					GOOGLE_PLAY_SERVICES_REQUEST_CODE, new DialogInterface.OnCancelListener() {
@@ -352,6 +353,7 @@ public class FlightActivity extends DrawerNavigationUI {
 	 * binary is installed and up to date.
 	 */
 	private void setupMapFragment() {
+        Log.i(TAG,"enter setUpMapFragment");
 		if (mapFragment == null && isGooglePlayServicesValid(true)) {
 			mapFragment = (FlightMapFragment) fragmentManager.findFragmentById(R.id.flight_map_fragment);
 			if (mapFragment == null) {
